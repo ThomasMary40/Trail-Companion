@@ -1,0 +1,49 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "+" : {
+
+    },
+    "Carte" : {
+
+    },
+    "Current page" : {
+
+    },
+    "Distance" : {
+
+    },
+    "Distance : %@" : {
+
+    },
+    "Elevation" : {
+
+    },
+    "Elevation : %@ D+ | %@ D-" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Elevation : %1$@ D+ | %2$@ D-"
+          }
+        }
+      }
+    },
+    "Hello, World!" : {
+
+    },
+    "Inconnu" : {
+
+    },
+    "Profil" : {
+
+    },
+    "Sections" : {
+
+    },
+    "Traces" : {
+
+    }
+  },
+  "version" : "1.0"
+}

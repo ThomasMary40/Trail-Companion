@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct Trail_CompanionApp: App {
+struct TrailCompanionApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TraceList()
         }
     }
 }

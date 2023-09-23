@@ -87,7 +87,7 @@ struct PageView<Page: View>: View {
         pages: [
             AnyView(ProfileCard(viewModel: GPXViewModel(gpx: gpxData))),
             AnyView(MapCard(viewModel: GPXViewModel(gpx: gpxData))),
-            AnyView(SectionsCard())
+            AnyView(SectionsCard(viewModel: GPXViewModel(gpx: gpxData)))
         ]
     )
     // .aspectRatio(3 / 2, contentMode: .fit)

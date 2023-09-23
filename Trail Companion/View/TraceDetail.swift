@@ -14,7 +14,7 @@ struct TraceDetail: View {
         PageView(pages: [
             AnyView(ProfileCard(viewModel: viewModel)),
             AnyView(MapCard(viewModel: viewModel)),
-            AnyView(SectionsCard())
+            AnyView(SectionsCard(viewModel: viewModel))
         ])
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle(viewModel.gpx.trk?.name ?? "Détails")

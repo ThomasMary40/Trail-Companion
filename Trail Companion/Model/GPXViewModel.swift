@@ -13,6 +13,7 @@ class GPXViewModel {
     let gpx: GPX
     var lastPoint: TrackPoint?
     var viablePoints = [TrackPoint]()
+    var sections: [Section] = []
     
     // technical data
     var totalPoints = 0
@@ -179,8 +180,8 @@ class GPXViewModel {
             
             // On retire les 1 premiers et 1 derniers points de la liste pour ne pas avoir les waypoints 'start' et 'finish'
             var adjustedPoints = segment.trackPoints
-            adjustedPoints.removeFirst(1)
-            adjustedPoints.removeLast(1)
+//            adjustedPoints.removeFirst(1)
+//            adjustedPoints.removeLast(1)
             
             if let waypoints = gpx.wpt {
                 for waypoint in waypoints {
@@ -193,6 +194,20 @@ class GPXViewModel {
                         point!.waypoint = waypoint
                     }
                 }
+                
+                var tmpPoints: [TrackPoint] = []
+                for point in adjustedPoints {
+                    tmpPoints.append(point)
+                    if let wpt = point.waypoint {
+                        let section = Section.init(name: wpt.displayedNamed, points: tmpPoints)
+                        calculateTotalDeniv(section, sections)
+                        
+                        sections.append(section)
+                        tmpPoints.removeAll()
+                    }
+                }
+                
+                print("Sections : \(sections.count)")
             }
         }
         
@@ -250,13 +265,13 @@ class GPXViewModel {
         
         return total
     }
+}
+
+func distanceBetween(_ point1: TrackPoint, _ point2: TrackPoint) -> Double {
+    let coordinate0 = CLLocation(latitude: point1.latitude, longitude: point1.longitude)
+    let coordinate1 = CLLocation(latitude: point2.latitude, longitude: point2.longitude)
     
-    func distanceBetween(_ point1: TrackPoint, _ point2: TrackPoint) -> Double {
-        let coordinate0 = CLLocation(latitude: point1.latitude, longitude: point1.longitude)
-        let coordinate1 = CLLocation(latitude: point2.latitude, longitude: point2.longitude)
-        
-        return coordinate0.distance(from: coordinate1)
-    }
+    return coordinate0.distance(from: coordinate1)
 }
 
 extension Double {
@@ -304,4 +319,90 @@ extension Double {
         
         return Double(stringValue) ?? 0.0
     }
+}
+
+class Section: Identifiable, Equatable {
+    static func == (lhs: Section, rhs: Section) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    var id = UUID().uuidString
+    var name: String?
+    var points = [TrackPoint]()
+    var totalDenivPos = 0.0
+    var totalDenivNeg = 0.0
+    
+    lazy var sectionDistance: Double = {
+        var dist = 0.0
+        var previousPoint: TrackPoint?
+        points.forEach { trkPt in
+            if let previousPoint {
+                dist += distanceBetween(previousPoint, trkPt)
+            }
+            previousPoint = trkPt
+        }
+        
+        return dist
+    }()
+    
+    lazy var sectionDenivPos: Double = {
+        var deniv = 0.0
+        
+        var previousPoint: TrackPoint?
+        
+        points.forEach { trkPt in
+            if previousPoint != nil {
+                let currentElevation = trkPt.elevation ?? 0.0
+                let previousElevation = previousPoint?.elevation ?? 0.0
+                
+                if currentElevation > previousElevation {
+                    deniv += currentElevation - previousElevation
+                }
+            }
+            previousPoint = trkPt
+        }
+        
+        return deniv
+    }()
+    
+    lazy var sectionDenivNeg: Double = {
+        var deniv = 0.0
+        
+        var previousPoint: TrackPoint?
+        
+        points.forEach { trkPt in
+            if previousPoint != nil {
+                let currentElevation = trkPt.elevation ?? 0.0
+                let previousElevation = previousPoint?.elevation ?? 0.0
+                
+                if currentElevation < previousElevation {
+                    deniv += previousElevation - currentElevation
+                }
+            }
+            previousPoint = trkPt
+        }
+        
+        return deniv
+    }()
+    
+    init(name: String? = nil, points: [TrackPoint] = [TrackPoint]()) {
+        self.name = name
+        self.points = points
+    }
+}
+
+func calculateTotalDeniv(_ from: Section, _ sections: [Section]) {
+    guard !sections.isEmpty else {
+        from.totalDenivPos = from.sectionDenivPos
+        from.totalDenivNeg = from.sectionDenivNeg
+        return
+    }
+    
+    for section in sections {
+        from.totalDenivPos += section.sectionDenivPos
+        from.totalDenivNeg += section.sectionDenivNeg
+    }
+    
+    from.totalDenivPos += from.sectionDenivPos
+    from.totalDenivNeg += from.sectionDenivNeg
 }

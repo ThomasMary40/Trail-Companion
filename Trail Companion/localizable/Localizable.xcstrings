@@ -4,16 +4,34 @@
     "+" : {
 
     },
+    "Alt : %@" : {
+
+    },
     "Carte" : {
 
     },
     "Current page" : {
 
     },
+    "D- : %@" : {
+
+    },
+    "D- : %lf" : {
+
+    },
+    "D+ : %@" : {
+
+    },
+    "D+ : %lf" : {
+
+    },
     "Distance" : {
 
     },
     "Distance : %@" : {
+
+    },
+    "distance not found" : {
 
     },
     "Elevation" : {
@@ -28,9 +46,6 @@
           }
         }
       }
-    },
-    "Hello, World!" : {
-
     },
     "Inconnu" : {
 

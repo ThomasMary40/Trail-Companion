@@ -60,7 +60,11 @@ struct ThirdLine: View {
         .previewLayout(.fixed(width: 300, height: 70))
 }
 
-func elevationFormat(_ number: Double) -> String {
+func elevationFormat(_ number: Double?) -> String {
+    guard let number else {
+        return ""
+    }
+    
     let customFormatter = NumberFormatter()
     customFormatter.roundingMode = .down
     customFormatter.maximumFractionDigits = 0
@@ -68,7 +72,7 @@ func elevationFormat(_ number: Double) -> String {
     return customFormatter.string(from: NSNumber(value: number)) ?? ""
 }
 
-func getDisplayedDistance(_ from: Double) -> String {
+public func getDisplayedDistance(_ from: Double) -> String {
     let measurement = Measurement(value: from, unit: UnitLength.meters)
     let formatter = MeasurementFormatter()
     
@@ -77,7 +81,11 @@ func getDisplayedDistance(_ from: Double) -> String {
     return formatter.string(from: measurement)
 }
 
-func getDisplayedElevation(_ from: Double) -> String {
+func getDisplayedElevation(_ from: Double?) -> String {
+    guard let from else {
+        return ""
+    }
+    
     let formatter = LengthFormatter()
     formatter.isForPersonHeightUse = true
     formatter.unitStyle = .medium

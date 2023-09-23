@@ -29,7 +29,21 @@ class GPXViewModel {
     var eleMin = 0.0
     var eleMax = 0.0
     
-    var wayPoints = gpxData.wpt
+    lazy var wayPoints: [Waypoint]  = {
+        
+        guard let wpts = gpx.wpt else {
+            return []
+        }
+        
+        print("Waypoints : \(wpts.count)")
+        
+        for wptI in 0..<wpts.count {
+            let wpt = wpts[wptI]
+            print("waypoint \(wpt.displayedNamed) (\(wpt.locationCoordinate))")
+        }
+        
+        return wpts
+    }()
     
     lazy var profilDenivAmpl: Double = {
         if elevationAmplitude < 50 {

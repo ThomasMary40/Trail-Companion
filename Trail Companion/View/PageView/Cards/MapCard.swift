@@ -22,28 +22,16 @@ struct MapCard: View {
                         .stroke(.red, lineWidth: 2)
                 }
                 
-                if let wpts = viewModel.wayPoints {
-                    ForEach(wpts) { wpt in
-                        Marker(wpt.displayedNamed, coordinate: wpt.locationCoordinate)
-                    }
+                ForEach(viewModel.wayPoints) { wpt in
+                    Marker(wpt.displayedNamed, coordinate: wpt.locationCoordinate)
                 }
                 
-                // Marker("Test", coordinate: viewModel.center)
+                // Marker("Center", coordinate: viewModel.center)
             }
-            
-//            Map(coordinateRegion: $region, annotationItems: viewModel.wayPoints!) { item in
-//                MapMarker(coordinate: item.locationCoordinate)
-//            }
         }
     }
 }
 
 #Preview {
     MapCard(viewModel: GPXViewModel(gpx: gpxData))
-}
-
-struct MapAnnotation: Identifiable {
-    var id = UUID()
-    var name: String
-    var coordinates: CLLocationCoordinate2D
 }

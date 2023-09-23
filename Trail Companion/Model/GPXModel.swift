@@ -36,7 +36,7 @@ class Metadata: Codable {
 }
 
 class Waypoint: Codable, Identifiable {
-    var id: String?
+//    var id: String?
     var lat: Double
     var lon: Double
     var time: Date?
@@ -53,11 +53,11 @@ class Waypoint: Codable, Identifiable {
     }
     
     var displayedNamed: String {
-        guard let name else {
+        guard let cmt else {
             return "Point"
         }
         
-        return name
+        return cmt
     }
 }
 

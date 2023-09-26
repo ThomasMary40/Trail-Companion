@@ -195,7 +195,14 @@ class GPXViewModel {
                     }
                 }
                 
+                // Ajout de la section 'départ'
                 var tmpPoints: [TrackPoint] = []
+                if let firstPoint = adjustedPoints.first {
+                    if firstPoint.waypoint == nil {
+                        let section = Section.init(name: "Départ", points: [firstPoint])
+                        sections.append(section)
+                    }
+                }
                 for point in adjustedPoints {
                     tmpPoints.append(point)
                     if let wpt = point.waypoint {

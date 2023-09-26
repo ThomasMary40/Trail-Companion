@@ -26,6 +26,9 @@ struct SectionResume: View {
         HStack {
             Text(section.name ?? "Name")
                 .font(.headline)
+            if let lastPoint = section.points.last {
+                Text("Alt : \(elevationFormat(lastPoint.elevation))")
+            }
         }
     }
 }
@@ -37,7 +40,7 @@ struct SectionCumul: View {
         HStack {
             if let lastPoint = section.points.last {
                 Text(getDisplayedDistance(lastPoint.fromStart))
-                Text("Alt : \(elevationFormat(lastPoint.elevation))")
+                // Text("Alt : \(elevationFormat(lastPoint.elevation))")
             } else {
                 Text("distance not found")
             }

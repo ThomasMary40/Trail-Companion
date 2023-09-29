@@ -36,13 +36,6 @@ class GPXViewModel {
             return []
         }
         
-        print("Waypoints : \(wpts.count)")
-        
-        for wptI in 0..<wpts.count {
-            let wpt = wpts[wptI]
-            print("waypoint \(wpt.displayedNamed) (\(wpt.locationCoordinate))")
-        }
-        
         return wpts
     }()
     
@@ -115,7 +108,7 @@ class GPXViewModel {
     
     init(gpx: GPX) {
         self.gpx = gpx
-        // print("init view model")
+
         guard let trk = gpx.trk else {
             return
         }
@@ -213,14 +206,10 @@ class GPXViewModel {
                         tmpPoints.removeAll()
                     }
                 }
-                
-                print("Sections : \(sections.count)")
             }
         }
         
         calculateDeniv()
-        
-        // print("Viable points : \(viablePoints.count) / \(totalPoints)")
     }
     
     func getFilteredPoints() -> [TrackPoint] {

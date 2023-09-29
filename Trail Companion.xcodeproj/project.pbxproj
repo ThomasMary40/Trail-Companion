@@ -26,6 +26,7 @@
 		F863832C2A8E162400E00A42 /* ProfileCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F863832B2A8E162400E00A42 /* ProfileCard.swift */; };
 		F863832E2A8E164500E00A42 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F863832D2A8E164500E00A42 /* PageView.swift */; };
 		F86383322A8F97CC00E00A42 /* MapCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86383312A8F97CC00E00A42 /* MapCard.swift */; };
+		F86D8AA12AC6AC120048E1B6 /* PrivateLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86D8AA02AC6AC120048E1B6 /* PrivateLogger.swift */; };
 		F87418FE2A8A74ED00EAFDBE /* TraceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87418FD2A8A74ED00EAFDBE /* TraceRow.swift */; };
 		F87419002A8A84A400EAFDBE /* TraceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87418FF2A8A84A400EAFDBE /* TraceList.swift */; };
 		F87419022A8A881200EAFDBE /* TraceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87419012A8A881200EAFDBE /* TraceDetail.swift */; };
@@ -74,6 +75,7 @@
 		F863832B2A8E162400E00A42 /* ProfileCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCard.swift; sourceTree = "<group>"; };
 		F863832D2A8E164500E00A42 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		F86383312A8F97CC00E00A42 /* MapCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCard.swift; sourceTree = "<group>"; };
+		F86D8AA02AC6AC120048E1B6 /* PrivateLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateLogger.swift; sourceTree = "<group>"; };
 		F874188C2A8A2F0300EAFDBE /* Trail-Companion-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Trail-Companion-Info.plist"; sourceTree = SOURCE_ROOT; };
 		F87418FD2A8A74ED00EAFDBE /* TraceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceRow.swift; sourceTree = "<group>"; };
 		F87418FF2A8A84A400EAFDBE /* TraceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceList.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				F8B7D7372A88B889002E135C /* View */,
 				F803203E2A7CD82A008579F1 /* Model */,
 				F80320392A7BE7A6008579F1 /* Data */,
+				F86D8A9F2AC6ABFE0048E1B6 /* Logger */,
 				F8031FFB2A7BE448008579F1 /* Trail_CompanionApp.swift */,
 				F8031FFF2A7BE449008579F1 /* Assets.xcassets */,
 				F80320012A7BE449008579F1 /* Trail_Companion.entitlements */,
@@ -249,6 +252,14 @@
 				F863832D2A8E164500E00A42 /* PageView.swift */,
 			);
 			path = PageView;
+			sourceTree = "<group>";
+		};
+		F86D8A9F2AC6ABFE0048E1B6 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				F86D8AA02AC6AC120048E1B6 /* PrivateLogger.swift */,
+			);
+			path = Logger;
 			sourceTree = "<group>";
 		};
 		F8B7D7372A88B889002E135C /* View */ = {
@@ -437,6 +448,7 @@
 				F823C8022ABED9D600640DD8 /* SectionRow.swift in Sources */,
 				F8031FFC2A7BE448008579F1 /* Trail_CompanionApp.swift in Sources */,
 				F87419022A8A881200EAFDBE /* TraceDetail.swift in Sources */,
+				F86D8AA12AC6AC120048E1B6 /* PrivateLogger.swift in Sources */,
 				F863832A2A8DFEFF00E00A42 /* PageViewController.swift in Sources */,
 				F823C7FD2ABAD76F00640DD8 /* Documentation.docc in Sources */,
 				F863832E2A8E164500E00A42 /* PageView.swift in Sources */,

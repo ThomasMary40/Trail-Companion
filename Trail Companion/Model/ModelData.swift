@@ -7,6 +7,7 @@
 import SwiftUI
 import XMLParsing
 import UniformTypeIdentifiers
+import OSLog
 
 var gpxData: GPX = load("GRP120_T1.gpx")
 var allGpx: [GPX] = loadAll()
@@ -47,7 +48,7 @@ func getGpxDocumentDir() -> URL {
     let dirPaths = filemgr.urls(for: .documentDirectory, in: .userDomainMask)
     let docsDir = dirPaths[0]
     
-    print("Path : \(docsDir)")
+    Logger.files.info("Path : \(docsDir)")
     
     return docsDir
 }
@@ -58,12 +59,12 @@ func addGpx(_ from: URL) -> GPX? {
     
     if from.startAccessingSecurityScopedResource() {
         do {
-            // filemgr.moveItem(at: from, to: toGoUrl)
             try filemgr.copyItem(at: from, to: toGoUrl)
-            print("file moved sucessfully")
+            Logger.files.info("file copied sucessfully to \(toGoUrl)")
+            
             return loadFromApplicationDocument(toGoUrl)
         } catch {
-            print("error moving file \(error.localizedDescription)")
+            Logger.files.error("error moving file to \(toGoUrl) : \(error.localizedDescription)")
             return nil
         }
     } else {
@@ -73,67 +74,52 @@ func addGpx(_ from: URL) -> GPX? {
 
 // Load from "Document" app folder
 func loadFromApplicationDocument<T: Decodable>(_ url: URL) -> T {
-    print("Loading file at \(url.absoluteString)")
+    Logger.files.info("Loading file at \(url.absoluteString)")
     
     let filemgr = FileManager.default
     let data: Data
 
     guard filemgr.fileExists(atPath: url.relativePath)
     else {
-        fatalError("Couldn't find \(url.relativePath) in main bundle.")
+        Logger.files.error("Couldn't find \(url.relativePath) in main bundle.")
+        fatalError()
     }
 
     do {
         data = try Data(contentsOf: url)
     } catch {
-        fatalError("Couldn't load \(url.relativePath) from main bundle:\n\(error)")
+        Logger.files.error("Couldn't load \(url.relativePath) from main bundle:\n\(error)")
+        fatalError()
     }
 
     do {
         let decoder = XMLDecoder()
         return try decoder.decode(T.self, from: data)
     } catch {
-        fatalError("Couldn't parse \(url.relativePath) as \(T.self):\n\(error)")
+        Logger.files.error("Couldn't parse \(url.relativePath) as \(T.self):\n\(error)")
+        fatalError()
     }
 }
 
 func loadAll() -> [GPX] {
-    print("Loading all files")
     var gpxs = [GPX]()
     let filemgr = FileManager.default
     do {
         let filelist = try filemgr.contentsOfDirectory(atPath: getGpxDocumentDir().relativePath)
-        
-        print("file list \(filelist.endIndex)")
+        Logger.files.info("Number of files to load : \(filelist.endIndex)")
         for filename in filelist {
-            print(filename)
+            Logger.files.info("Loading \(filename) ...")
             if filename.lowercased().hasSuffix(".gpx") {
-                // let gpx = load(filename) as GPX
                 let url = getGpxDocumentDir().appending(component: filename)
                 let gpx = loadFromApplicationDocument(url) as GPX
                 gpx.id = UUID().uuidString
                 gpxs.append(gpx)
-                print("GPX \(gpx.metadata?.name ?? "Unknow") Added")
+                Logger.files.info("GPX \(gpx.metadata?.name ?? "Unknow") Added")
             }
         }
     } catch let error {
-        print("Error: \(error.localizedDescription)")
+        Logger.files.error("Error loading all files : \(error.localizedDescription)")
     }
-    
-//    do {
-//        let allFiles = try manager.contentsOfDirectory(atPath: "/Users/thomasmary/Projects/Trail Companion/Trail Companion/Data")
-//        for file in allFiles {
-//            print("add \(file)")
-//            let gpx = load(file) as GPX
-//            gpx.id = UUID().uuidString
-//            
-//            gpxs.append(gpx)
-//            
-//            print("GPX \(gpx.metadata.name) Added")
-//        }
-//    } catch {
-//        print("error : \(error)")
-//    }
-    
+
     return gpxs
 }

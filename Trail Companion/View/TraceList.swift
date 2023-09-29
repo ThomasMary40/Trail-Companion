@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import OSLog
 
 struct TraceList: View {
     @State var gpxList = allGpx
@@ -44,21 +45,21 @@ struct TraceList: View {
                         ) { result in
                             switch result {
                             case .success(let file):
-                                print(file.absoluteString)
+                                Logger.files.info("\(file.absoluteString)")
                                 guard let url = URL(string: file.absoluteString) else {
-                                    print("error")
+                                    Logger.files.error("Error : no file at \(file.absoluteString)")
                                     return
                                 }
                                 
                                 guard let importedGpx = addGpx(url) else {
-                                    print("error")
+                                    Logger.files.error("Error adding gpx at \(file.absoluteString)")
                                     return
                                 }
                                 
                                 gpxList.append(importedGpx)
                                 
                             case .failure(let error):
-                                print(error.localizedDescription)
+                                Logger.files.error("\(error.localizedDescription)")
                             }
                         }
                     }

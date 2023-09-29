@@ -13,8 +13,8 @@ struct SectionRow: View {
     var body: some View {
         VStack(alignment: .leading) {
             SectionResume(section: section)
-            SectionCumul(section: section)
             SectionStep(section: section)
+            SectionCumul(section: section)
         }
     }
 }
